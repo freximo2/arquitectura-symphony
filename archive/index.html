@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symphony · AI Platform Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #16161f;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8e8f0;
+  --text2: #9090a8;
+  --text3: #5a5a72;
+  --accent: #6c63ff;
+  --accent2: #00d4aa;
+  --accent3: #ff6b6b;
+  --amber: #f5a623;
+  --blue: #4a9eff;
+  --purple: #a78bfa;
+  --teal: #2dd4bf;
+  --coral: #fb923c;
+  --green: #4ade80;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID BG ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+aside {
+  position: fixed;
+  top: 0; left: 0;
+  width: 220px;
+  height: 100vh;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0;
+  z-index: 100;
+}
+
+.logo {
+  padding: 0 24px 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+nav { flex: 1; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+  font-weight: 400;
+  transition: all .15s;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active {
+  color: var(--text);
+  background: rgba(108,99,255,0.08);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.nav-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  min-width: 16px;
+}
+.nav-item.active .nav-num { color: var(--accent); }
+
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  line-height: 1.6;
+}
+.status-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  margin-right: 4px;
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── MAIN ── */
+main {
+  margin-left: 220px;
+  padding: 0;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── HERO HEADER ── */
+.page-header {
+  padding: 48px 52px 36px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.page-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.page-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.page-title span { color: var(--accent); }
+.page-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── CONTENT ── */
+.content { padding: 36px 52px 60px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.card:hover { border-color: var(--border2); }
+.card-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.card p, .card li {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.card ul { padding-left: 16px; }
+.card ul li { margin-bottom: 4px; }
+
+/* ── GRID ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+
+/* ── LAYER DIAGRAM ── */
+.arch-layers { margin-bottom: 24px; }
+.layer {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.layer:hover { border-color: var(--border2); }
+.layer::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+.layer.l4::before { background: var(--purple); }
+.layer.l3::before { background: var(--teal); }
+.layer.l2::before { background: var(--blue); }
+.layer.l1::before { background: var(--text3); }
+.layer.lext::before { background: var(--amber); }
+
+.layer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.layer-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+}
+.layer-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.layer-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: var(--bg3);
+  white-space: nowrap;
+}
+.chip.accent { border-color: rgba(108,99,255,.4); color: var(--purple); background: rgba(108,99,255,.08); }
+.chip.teal { border-color: rgba(45,212,191,.3); color: var(--teal); background: rgba(45,212,191,.07); }
+.chip.blue { border-color: rgba(74,158,255,.3); color: var(--blue); background: rgba(74,158,255,.07); }
+.chip.amber { border-color: rgba(245,166,35,.3); color: var(--amber); background: rgba(245,166,35,.07); }
+.chip.coral { border-color: rgba(251,146,60,.3); color: var(--coral); background: rgba(251,146,60,.07); }
+.chip.green { border-color: rgba(74,222,128,.3); color: var(--green); background: rgba(74,222,128,.07); }
+
+.connector-arrow {
+  text-align: center;
+  color: var(--text3);
+  font-size: 16px;
+  margin: 2px 0;
+  line-height: 1;
+}
+
+/* ── GOLDEN PATH ── */
+.steps-flow { display: flex; align-items: flex-start; gap: 0; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
+.step-wrap { display: flex; align-items: flex-start; }
+.step {
+  min-width: 110px;
+  max-width: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.step-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+.step-body { text-align: center; }
+.step-title-t { font-size: 11px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.step-tool-t { font-family: var(--font-mono); font-size: 10px; color: var(--text3); line-height: 1.4; }
+.step-gate-t {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--amber);
+  background: rgba(245,166,35,.1);
+  border: 1px solid rgba(245,166,35,.2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-top: 4px;
+  display: inline-block;
+}
+.step-line {
+  flex: 1; min-width: 20px;
+  height: 1px;
+  background: var(--border2);
+  margin-top: 17px;
+  flex-shrink: 0;
+}
+
+/* ── DECISIONS ── */
+.decision-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.decision-block:hover { border-color: var(--border2); }
+.decision-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.decision-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(108,99,255,.12);
+  border: 1px solid rgba(108,99,255,.2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.decision-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.decision-context { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.decision-body { padding: 20px 24px; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+
+table.tradeoff {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+table.tradeoff th {
+  text-align: left;
+  padding: 8px 10px;
+  background: var(--bg3);
+  color: var(--text3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+table.tradeoff td {
+  padding: 10px 10px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+table.tradeoff tr:last-child td { border-bottom: none; }
+table.tradeoff tr.winner-row td { background: rgba(0, 212, 170, 0.04); }
+table.tradeoff tr.winner-row td:first-child { color: var(--teal); }
+.winner-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: rgba(0,212,170,.12);
+  color: var(--teal);
+  border: 1px solid rgba(0,212,170,.2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.ok { color: var(--green); }
+.bad { color: var(--coral); }
+.mid { color: var(--amber); }
+
+.verdict-box {
+  background: rgba(108,99,255,.07);
+  border: 1px solid rgba(108,99,255,.15);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.verdict-box strong { color: var(--text); font-weight: 500; }
+
+/* ── METRICS ── */
+.metrics-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+.metric-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.metric-label { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; }
+.metric-value { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.metric-sub { font-size: 11px; color: var(--text3); }
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: var(--border2); }
+.tl-item { position: relative; margin-bottom: 20px; }
+.tl-dot { position: absolute; left: -20px; top: 5px; width: 8px; height: 8px; border-radius: 50%; border: 1px solid; }
+.tl-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; font-family: var(--font-display); }
+.tl-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.tl-time { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+
+/* ── HORIZON CARDS ── */
+.horizon {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.horizon::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.horizon.h1::before { background: var(--purple); }
+.horizon.h2::before { background: var(--blue); }
+.horizon.h3::before { background: var(--teal); }
+.horizon-label { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-bottom: 8px; letter-spacing: .05em; }
+.horizon-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+.horizon ul { padding-left: 14px; }
+.horizon li { font-size: 12px; color: var(--text2); line-height: 1.7; margin-bottom: 2px; }
+
+/* ── KPI ROW ── */
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.kpi-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-align: center;
+}
+.kpi-value { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text); }
+.kpi-label { font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.4; }
+
+/* ── ALERT ── */
+.alert {
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  border: 1px solid;
+}
+.alert-amber { background: rgba(245,166,35,.07); border-color: rgba(245,166,35,.2); color: var(--amber); }
+.alert-teal { background: rgba(0,212,170,.07); border-color: rgba(0,212,170,.2); color: var(--teal); }
+.alert-accent { background: rgba(108,99,255,.07); border-color: rgba(108,99,255,.2); color: var(--purple); }
+
+/* ── CODE INLINE ── */
+code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--accent2);
+}
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0;
+}
+
+h2.sub-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.sub-desc { font-size: 13px; color: var(--text2); margin-bottom: 18px; line-height: 1.6; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 800px) {
+  .shell { grid-template-columns: 1fr; }
+  aside { display: none; }
+  main { margin-left: 0; }
+  .content { padding: 24px 20px 40px; }
+  .page-header { padding: 28px 20px 24px; }
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2,1fr); }
+  .metrics-grid { grid-template-columns: repeat(2,1fr); }
+  .page-title { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside>
+  <div class="logo">
+    <div class="logo-badge"><div class="logo-dot"></div>Symphony</div>
+    <div class="logo-sub">AI PLATFORM ENGINEERING</div>
+  </div>
+  <nav>
+    <div class="nav-item active" onclick="show('arq', this)">
+      <span class="nav-num">01</span> Arquitectura
+    </div>
+    <div class="nav-item" onclick="show('golden', this)">
+      <span class="nav-num">02</span> Golden Path
+    </div>
+    <div class="nav-item" onclick="show('decisions', this)">
+      <span class="nav-num">03</span> Decisiones
+    </div>
+    <div class="nav-item" onclick="show('obs', this)">
+      <span class="nav-num">04</span> Observabilidad
+    </div>
+    <div class="nav-item" onclick="show('vision', this)">
+      <span class="nav-num">05</span> Visión 12 meses
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div><span class="status-dot"></span>Personal Banker v1</div>
+    <div style="margin-top:4px">GCP · us-central1</div>
+    <div style="margin-top:4px">SLA 99.5% · &lt;3s voz</div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main>
+
+<!-- ════════════ 01 ARQUITECTURA ════════════ -->
+<div id="arq" class="section active">
+  <div class="page-header">
+    <div class="page-tag">Proyecto Symphony · Diseño de Plataforma</div>
+    <h1 class="page-title">Arquitectura <span>AI-First</span><br>para Banca Regulada</h1>
+    <p class="page-desc">4 capas desacopladas que separan responsabilidades: desde infraestructura cloud hasta la experiencia del desarrollador. Kong y LangGraph comparten la responsabilidad de seguridad y orquestación — ninguno lo hace solo.</p>
+  </div>
+  <div class="content">
+
+    <h2 class="sub-title">Capas de la plataforma</h2>
+    <p class="sub-desc">Cada capa tiene un único dueño técnico y puede evolucionar de forma independiente.</p>
+
+    <div class="arch-layers">
+
+      <div class="layer l4">
+        <div class="layer-header">
+          <span class="layer-num">CAPA 04</span>
+          <span class="layer-name">Developer Experience — Portal IDP</span>
+        </div>
+        <div class="layer-chips">
+          <span class="chip accent">Port.io / Backstage</span>
+          <span class="chip accent">GitHub Actions CI/CD</span>
+          <span class="chip accent">ArgoCD GitOps</span>
+          <span class="chip accent">LangSmith dashboard</span>
+          <span class="chip accent">Scaffolding templates</span>
+        </div>
+      </div>
+
+      <div class="connector-arrow">↓</div>
+
+      <div class="layer l3">
+        <div class="layer-header">
+          <span class="layer-num">CAPA 03</span>
+          <span class="layer-name">Governance &amp; Control de Tráfico</span>
+        </div>
+        <div class="layer-chips">
+          <span class="chip teal">Kong AI Gateway</span>
+          <span class="chip teal">AuthN/Z · Rate limiting · PII masking</span>
+          <span class="chip teal">MCP Protocol — tools distribuidos</span>
+          <span class="chip teal">ServiceNow ITOM — audit trail</span>
+          <span class="chip teal">Consent Manager</span>
+        </div>
+      </div>
+
+      <div class="connector-arrow">↓</div>
+
+      <div class="layer l2">
+        <div class="layer-header">
+          <span class="layer-num">CAPA 02</span>
+          <span class="layer-name">Orquestación de Agentes</span>
+        </div>
+        <div class="layer-chips">
+          <span class="chip blue">LangGraph — state machine · agent logic</span>
+          <span class="chip blue">Vertex AI Agent Engine — LLM runtime</span>
+          <span class="chip blue">Redis — session state activa (&lt;1ms)</span>
+          <span class="chip blue">Firestore — audit trail permanente</span>
+          <span class="chip blue">LangFuse — tracing LLM</span>
+        </div>
+      </div>
+
+      <div class="connector-arrow">↓</div>
+
+      <div class="layer l1">
+        <div class="layer-header">
+          <span class="layer-num">CAPA 01</span>
+          <span class="layer-name">Infraestructura Cloud — GCP Primario</span>
+        </div>
+        <div class="layer-chips">
+          <span class="chip">GCP · Vertex AI · GKE</span>
+          <span class="chip">Terraform IaC</span>
+          <span class="chip">Helm charts</span>
+          <span class="chip">Dynatrace APM</span>
+          <span class="chip">AWS / Azure secundarios</span>
+          <span class="chip">BIAN model compliance</span>
+        </div>
+      </div>
+
+      <div class="connector-arrow">↓</div>
+
+      <div class="layer lext">
+        <div class="layer-header">
+          <span class="layer-num">EXTERNO</span>
+          <span class="layer-name">Core Banking &amp; Canales</span>
+        </div>
+        <div class="layer-chips">
+          <span class="chip amber">Core Banking APIs</span>
+          <span class="chip amber">IAM / OAuth 2.0</span>
+          <span class="chip amber">Canal de voz (telephony)</span>
+          <span class="chip amber">MCP Tarjetas</span>
+          <span class="chip amber">MCP Créditos</span>
+          <span class="chip amber">MCP Inversiones</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Kong — perímetro de seguridad único</div>
+        <p>Todo tráfico LLM pasa por Kong antes de llegar al agente. Maneja autenticación, rate limiting por cliente, PII masking en tiempo real y logging de cada token para auditoría. Es el único punto de entrada al plano de orquestación — sin Kong, no hay acceso al agente.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">LangGraph + Vertex AI — cerebro compartido</div>
+        <p>LangGraph define la máquina de estados del agente: qué hacer en cada turno, cuándo escalar a humano, cómo manejar errores. Vertex AI Agent Engine corre el LLM. Responsabilidad compartida — la seguridad no está solo en el gateway ni solo en el agente.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Personal Banker — primer agente de producción</div>
+        <p>Canal de voz. Consultas de saldos y movimientos, bloqueo de tarjetas, programación de pagos, solicitud de certificados. Escala automáticamente a agente humano ante indicadores de fraude, complejidad o riesgo. SLA 99.5%, latencia máxima 3s.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">BIAN como lenguaje común</div>
+        <p>Banking Industry Architecture Network define los dominios de servicio bancario. Cada MCP server se mapea a un dominio BIAN (Card Management, Payment Order, etc.). Esto garantiza que el lenguaje de las herramientas del agente sea consistente con el modelo de negocio del banco.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ 02 GOLDEN PATH ════════════ -->
+<div id="golden" class="section">
+  <div class="page-header">
+    <div class="page-tag">Developer Experience · Flujo Estándar</div>
+    <h1 class="page-title">Golden Path del <span>Agente AI</span></h1>
+    <p class="page-desc">8 pasos del repositorio al cliente. La plataforma automatiza todo lo que no requiere criterio humano. Los gates de compliance son automáticos e inviolables — el desarrollador no puede saltarlos.</p>
+  </div>
+  <div class="content">
+
+    <div class="steps-flow">
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--purple);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.08)">1</div>
+          <div class="step-body">
+            <div class="step-title-t">Scaffolding</div>
+            <div class="step-tool-t">Port.io template</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--purple);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.08)">2</div>
+          <div class="step-body">
+            <div class="step-title-t">Dev local</div>
+            <div class="step-tool-t">LangGraph + LangSmith</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--teal);border-color:rgba(45,212,191,.3);background:rgba(45,212,191,.08)">3</div>
+          <div class="step-body">
+            <div class="step-title-t">Pull Request</div>
+            <div class="step-tool-t">GitHub Actions</div>
+            <div class="step-gate-t">⬡ gate: lint + tests</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--teal);border-color:rgba(45,212,191,.3);background:rgba(45,212,191,.08)">4</div>
+          <div class="step-body">
+            <div class="step-title-t">Security scan</div>
+            <div class="step-tool-t">SAST · PII check</div>
+            <div class="step-gate-t">⬡ gate: compliance</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--blue);border-color:rgba(74,158,255,.3);background:rgba(74,158,255,.08)">5</div>
+          <div class="step-body">
+            <div class="step-title-t">Deploy staging</div>
+            <div class="step-tool-t">ArgoCD GitOps</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--amber);border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.08)">6</div>
+          <div class="step-body">
+            <div class="step-title-t">Eval LLM</div>
+            <div class="step-tool-t">LangSmith evals</div>
+            <div class="step-gate-t">⬡ gate: accuracy &gt;95%</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--amber);border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.08)">7</div>
+          <div class="step-body">
+            <div class="step-title-t">Aprobación</div>
+            <div class="step-tool-t">ServiceNow ITOM</div>
+            <div class="step-gate-t">⬡ gate: risk review</div>
+          </div>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-wrap">
+        <div class="step">
+          <div class="step-num" style="color:var(--green);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.08)">8</div>
+          <div class="step-body">
+            <div class="step-title-t">Producción</div>
+            <div class="step-tool-t">Canary 5% → 100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-amber">Gates automáticos en pasos 3, 4, 6 y 7. Son inviolables — el pipeline se detiene si cualquier gate falla. El desarrollador recibe diagnóstico exacto de qué falló y por qué.</div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Lo que ve el desarrollador</div>
+        <ul>
+          <li>Template pre-configurado con estructura de agente LangGraph</li>
+          <li>Panel en Port.io con estado del deployment en tiempo real</li>
+          <li>Dashboard de evals en LangSmith (precisión, latencia, toxicidad, drift)</li>
+          <li>Alerta cuando el agente degrada en staging antes de llegar a producción</li>
+          <li>Un solo comando: <code>platform deploy --agent personal-banker --env prod</code></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Lo que hace la plataforma automáticamente</div>
+        <ul>
+          <li>Provisiona infraestructura GKE con Terraform — sin ticket al equipo de infra</li>
+          <li>Configura Kong route y políticas de seguridad (rate limit, PII masking)</li>
+          <li>Registra el agente en el MCP catalog central (ServiceNow)</li>
+          <li>Crea tracing distribuido en LangFuse + Dynatrace APM</li>
+          <li>Notifica a ServiceNow para iniciar el audit trail regulatorio desde el día 0</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Canary deployment — cero downtime, riesgo controlado</div>
+      <p>El agente llega a producción en 3 fases automáticas: <strong style="color:var(--text)">5% del tráfico</strong> durante 30 minutos → evaluación de SLIs → <strong style="color:var(--text)">25%</strong> durante 1 hora → evaluación → <strong style="color:var(--text)">100%</strong>. Si cualquier SLI cae por debajo del umbral definido, el rollback es automático. El desarrollador recibe notificación, no despertador de madrugada.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ 03 DECISIONES ════════════ -->
+<div id="decisions" class="section">
+  <div class="page-header">
+    <div class="page-tag">Arquitectura · Trade-offs Documentados</div>
+    <h1 class="page-title">3 Decisiones <span>Críticas</span></h1>
+    <p class="page-desc">Cada decisión fue evaluada contra latencia, compliance regulatorio, blast radius y autonomía de equipos. El "depende" es el inicio del análisis, no el final.</p>
+  </div>
+  <div class="content">
+
+    <!-- DECISIÓN 1 -->
+    <div class="decision-block">
+      <div class="decision-header">
+        <div class="decision-num">D-01</div>
+        <div>
+          <div class="decision-title">Estado de sesión del agente conversacional</div>
+          <div class="decision-context">El agente de voz mantiene contexto de conversación (turno actual, intent, historial) y debe garantizar audit trail completo por regulación financiera. SLA estricto de latencia máxima 3 segundos en canal de voz.</div>
+        </div>
+      </div>
+      <div class="decision-body">
+        <div class="section-label">Opciones evaluadas</div>
+        <table class="tradeoff">
+          <tr><th>Opción</th><th>Velocidad</th><th>Persistencia</th><th>Compliance</th><th>Riesgo</th></tr>
+          <tr>
+            <td>Redis solo</td>
+            <td class="ok">Muy alta (&lt;1ms)</td>
+            <td class="bad">Efímera (TTL)</td>
+            <td class="bad">Insuficiente</td>
+            <td class="bad">Pierde trail si cae</td>
+          </tr>
+          <tr>
+            <td>Firestore solo</td>
+            <td class="mid">Media (10-50ms)</td>
+            <td class="ok">Permanente</td>
+            <td class="ok">Cumple</td>
+            <td class="mid">Latencia borderline</td>
+          </tr>
+          <tr class="winner-row">
+            <td>Híbrido Redis + Firestore <span class="winner-badge">elegida</span></td>
+            <td class="ok">Alta (&lt;3ms)</td>
+            <td class="ok">Permanente</td>
+            <td class="ok">Cumple</td>
+            <td class="ok">Bajo — recuperable</td>
+          </tr>
+        </table>
+        <div class="section-label">Decisión y justificación</div>
+        <div class="verdict-box">
+          <strong>Redis</strong> maneja el estado de la sesión activa (in-flight): el contexto del turno actual, el intent detectado, las variables de la conversación. Latencia sub-3ms garantizada. Al finalizar cada turno de conversación, se escribe de forma asíncrona a <strong>Firestore</strong> para el audit trail permanente. Si Redis falla, la sesión puede recuperarse desde Firestore. Si solo usáramos Redis, perderíamos la trazabilidad regulatoria. Si solo usáramos Firestore, no cumpliríamos la latencia de voz. El costo adicional (~20% más) es insignificante frente al riesgo regulatorio.
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISIÓN 2 -->
+    <div class="decision-block">
+      <div class="decision-header">
+        <div class="decision-num">D-02</div>
+        <div>
+          <div class="decision-title">Kong AI Gateway vs. API Gateway genérico</div>
+          <div class="decision-context">Toda llamada a modelos LLM debe pasar por un control centralizado de seguridad, rate limiting por cliente y logging de tokens para auditoría. El banco tendrá 200+ desarrolladores accediendo a múltiples modelos en los próximos 18 meses.</div>
+        </div>
+      </div>
+      <div class="decision-body">
+        <div class="section-label">Opciones evaluadas</div>
+        <table class="tradeoff">
+          <tr><th>Opción</th><th>AI-native</th><th>PII masking</th><th>Token tracking</th><th>Vendor lock-in</th></tr>
+          <tr>
+            <td>AWS API Gateway</td>
+            <td class="bad">No</td>
+            <td class="bad">Manual / custom</td>
+            <td class="bad">No nativo</td>
+            <td class="bad">Alto (AWS)</td>
+          </tr>
+          <tr>
+            <td>Apigee (GCP nativo)</td>
+            <td class="mid">Parcial</td>
+            <td class="mid">Plugin custom</td>
+            <td class="mid">Parcial</td>
+            <td class="mid">Medio (GCP)</td>
+          </tr>
+          <tr class="winner-row">
+            <td>Kong AI Gateway <span class="winner-badge">elegida</span></td>
+            <td class="ok">Nativo — built-in</td>
+            <td class="ok">Plugin incluido</td>
+            <td class="ok">Por modelo/cliente</td>
+            <td class="ok">Bajo (open-core)</td>
+          </tr>
+        </table>
+        <div class="section-label">Decisión y justificación</div>
+        <div class="verdict-box">
+          Kong AI Gateway tiene plugins nativos para <strong>prompt injection detection</strong>, <strong>PII masking</strong> y <strong>token-level rate limiting</strong> — funcionalidades que un gateway genérico requeriría construir desde cero. Al ser open-core, reduce la dependencia de un proveedor cloud específico: si el banco decide mover workloads de GCP a Azure, el gateway no cambia. Kong es el único punto de entrada al plano LLM — ninguna llamada a Vertex AI o a cualquier modelo sale sin pasar por él. Esto garantiza que el 100% del tráfico AI quede auditado.
+        </div>
+      </div>
+    </div>
+
+    <!-- DECISIÓN 3 -->
+    <div class="decision-block">
+      <div class="decision-header">
+        <div class="decision-num">D-03</div>
+        <div>
+          <div class="decision-title">MCP Servers centralizados vs. distribuidos por dominio</div>
+          <div class="decision-context">Los agentes necesitan herramientas (tools) para acceder a APIs bancarias: consultar saldos, bloquear tarjetas, programar pagos. El banco tiene múltiples dominios (tarjetas, créditos, inversiones, pagos) con equipos de desarrollo independientes.</div>
+        </div>
+      </div>
+      <div class="decision-body">
+        <div class="section-label">Opciones evaluadas</div>
+        <table class="tradeoff">
+          <tr><th>Opción</th><th>Autonomía equipos</th><th>Blast radius</th><th>Governance</th><th>Time-to-market</th></tr>
+          <tr>
+            <td>MCP centralizado</td>
+            <td class="bad">Baja — cuello de botella</td>
+            <td class="bad">Total — un fallo afecta todo</td>
+            <td class="ok">Fácil — un equipo</td>
+            <td class="bad">Lento — dependencia</td>
+          </tr>
+          <tr class="winner-row">
+            <td>MCP por dominio <span class="winner-badge">elegida</span></td>
+            <td class="ok">Alta — squads dueños</td>
+            <td class="ok">Controlado — aislado</td>
+            <td class="mid">Requiere contrato API</td>
+            <td class="ok">Rápido — paralelo</td>
+          </tr>
+        </table>
+        <div class="section-label">Decisión y justificación</div>
+        <div class="verdict-box">
+          Cada dominio de negocio publica y opera su propio MCP server. Si el MCP de tarjetas falla, los agentes de créditos siguen operando — <strong>blast radius controlado</strong>, exactamente lo que exige una superintendencia financiera en su análisis de riesgo operacional. El contrato es simple: cada MCP debe registrarse en el catalog central (ServiceNow) y cumplir el schema de herramientas estándar de la plataforma. Los equipos de negocio ganan autonomía; la plataforma mantiene governance a través del catalog, no del control directo.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ 04 OBSERVABILIDAD ════════════ -->
+<div id="obs" class="section">
+  <div class="page-header">
+    <div class="page-tag">SRE · Operación en Producción</div>
+    <h1 class="page-title">Observabilidad <span>& Operación</span></h1>
+    <p class="page-desc">Dos planos de observabilidad: Dynatrace para infraestructura y LangSmith/LangFuse para comportamiento LLM. Sin ambos estás ciego — uno sin el otro da falsos positivos o falsos negativos.</p>
+  </div>
+  <div class="content">
+
+    <h2 class="sub-title">SLIs clave de la plataforma</h2>
+    <p class="sub-desc">Los SLOs son deliberadamente más estrictos que los SLAs — el objetivo es detectar degradación antes de impactar al cliente.</p>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Disponibilidad SLA</div>
+        <div class="metric-value" style="color:var(--green)">99.5%</div>
+        <div class="metric-sub">SLO interno: 99.7%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Latencia voz P95</div>
+        <div class="metric-value" style="color:var(--blue)">&lt;3s</div>
+        <div class="metric-sub">SLO interno: &lt;2.2s</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Hallucination rate</div>
+        <div class="metric-value" style="color:var(--teal)">&lt;0.5%</div>
+        <div class="metric-sub">Medido con evals continuos</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Escalamiento correcto</div>
+        <div class="metric-value" style="color:var(--purple)">&gt;98%</div>
+        <div class="metric-sub">Fraude → humano</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">PII leak rate</div>
+        <div class="metric-value" style="color:var(--coral)">0%</div>
+        <div class="metric-sub">Hard limit regulatorio</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Error budget 30 días</div>
+        <div class="metric-value" style="color:var(--amber)">3.6h</div>
+        <div class="metric-sub">0.5% de 720 horas</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Detección de model drift y hallucination</div>
+        <p>LangSmith ejecuta evals continuos sobre una muestra del 5% del tráfico real contra un golden dataset bancario. Si la tasa de respuestas incorrectas supera 0.5% en ventana de 1 hora, se dispara alerta a on-call. Si supera 2%, el agente entra en <strong style="color:var(--text)">modo degradado</strong>: responde solo consultas de bajo riesgo y escala el resto a agente humano. Si el equipo no actúa en 30 minutos, el rollback al modelo anterior es automático.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Fallo en medio de una conversación activa</div>
+        <p>LangGraph implementa <strong style="color:var(--text)">checkpointing de estado</strong> en Redis cada turno. Si el pod falla, el siguiente pod recupera el estado y continúa la conversación sin que el cliente lo note. Si el fallo es total (Kong down, Vertex unreachable), el canal de voz hace fallback automático a IVR clásico: <em style="color:var(--text2)">"alta demanda, transfiriendo con asesor"</em>. El audit trail se escribe a Firestore antes de la transferencia.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Visibilidad al equipo de negocio — sin reportes manuales</div>
+      <p>Dashboard en tiempo real embebido en Port.io. Business owners ven: CSAT por canal, resolución en primera llamada, tasa de escalamiento, tiempo promedio de atención, top 10 intents más frecuentes. Todo actualizado en streaming desde LangFuse. No hay reunión de "dime cómo va el agente" — los datos están siempre disponibles. Las alertas de degradación van a Slack del área de negocio, no solo al equipo técnico.</p>
+    </div>
+
+    <div class="divider"></div>
+    <h2 class="sub-title">Runbook P1 — agente en producción degradado</h2>
+    <p class="sub-desc">Cada incidente queda registrado en ServiceNow para auditoría regulatoria. El tiempo de respuesta y las acciones tomadas son parte del reporte de riesgo operacional.</p>
+
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--coral);border-color:var(--coral)"></div>
+          <div class="tl-time">T + 0 min</div>
+          <div class="tl-title">Dynatrace detecta anomalía</div>
+          <div class="tl-desc">Latencia P95 supera 2.5s o error rate supera 1%. PagerDuty notifica al on-call en máximo 2 minutos. Se abre ticket automático en ServiceNow.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--amber);border-color:var(--amber)"></div>
+          <div class="tl-time">T + 5 min</div>
+          <div class="tl-title">Kong throttles el tráfico</div>
+          <div class="tl-desc">Rate limiting automático al 50% de capacidad. Nuevas sesiones entran a cola de espera. Clientes activos no son interrumpidos.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--blue);border-color:var(--blue)"></div>
+          <div class="tl-time">T + 10 min</div>
+          <div class="tl-title">LangSmith identifica la causa raíz</div>
+          <div class="tl-desc">Tracing completo de la conversación fallida. Se identifica si el problema es modelo (hallucination, drift), tool (MCP server), o infraestructura (latencia Vertex AI, Redis OOM).</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--green);border-color:var(--green)"></div>
+          <div class="tl-time">T + 30 min</div>
+          <div class="tl-title">Decisión: rollback o fix forward</div>
+          <div class="tl-desc">Si es modelo: rollback automático a versión anterior en ArgoCD. Si es infra: escalamiento a SRE con runbook específico. ServiceNow registra RCA y acciones para el reporte regulatorio.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ 05 VISIÓN ════════════ -->
+<div id="vision" class="section">
+  <div class="page-header">
+    <div class="page-tag">Visión Estratégica · Para el VP de Tecnología</div>
+    <h1 class="page-title">Roadmap <span>12 meses</span></h1>
+    <p class="page-desc">3 horizontes de inversión. El éxito no se mide en agentes desplegados — se mide en adopción orgánica, eficiencia operativa y reducción de riesgo regulatorio. La plataforma que construimos hoy habilita los 20+ agentes de mañana.</p>
+  </div>
+  <div class="content">
+
+    <div class="g3">
+      <div class="horizon h1">
+        <div class="horizon-label">H1 · 0 — 3 MESES</div>
+        <div class="horizon-title">Fundación sólida</div>
+        <ul>
+          <li>Personal Banker en producción estable</li>
+          <li>Golden Path documentado y funcionando</li>
+          <li>Kong + MCP catalog operativos</li>
+          <li>SLIs monitoreados, on-call establecido</li>
+          <li>Primer audit trail regulatorio aprobado</li>
+        </ul>
+      </div>
+      <div class="horizon h2">
+        <div class="horizon-label">H2 · 4 — 8 MESES</div>
+        <div class="horizon-title">Escala controlada</div>
+        <ul>
+          <li>5 agentes adicionales onboardeados</li>
+          <li>Self-service completo para squads</li>
+          <li>Eval automático en pipeline CI/CD</li>
+          <li>Fine-tuning modelo dominio bancario</li>
+          <li>Dashboard de negocio en Port.io</li>
+        </ul>
+      </div>
+      <div class="horizon h3">
+        <div class="horizon-label">H3 · 9 — 12 MESES</div>
+        <div class="horizon-title">Plataforma AI-First</div>
+        <ul>
+          <li>20+ agentes en producción</li>
+          <li>Multi-agent workflows activos</li>
+          <li>Marketplace interno de tools MCP</li>
+          <li>Certificación regulatoria AI obtenida</li>
+          <li>&lt;2 semanas time-to-prod nuevo agente</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="sub-title" style="margin-bottom:12px;">KPIs de éxito de la plataforma</h2>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value" style="color:var(--purple)">20+</div>
+        <div class="kpi-label">Agentes en producción al mes 12</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color:var(--blue)">&lt;2 sem</div>
+        <div class="kpi-label">Time-to-prod para nuevo agente</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color:var(--teal)">80%</div>
+        <div class="kpi-label">Adopción entre squads de negocio</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="color:var(--green)">0</div>
+        <div class="kpi-label">Incidentes regulatorios P1</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Construir vs. comprar</div>
+        <p style="margin-bottom:8px;"><strong style="color:var(--text);font-size:12px;">Construir:</strong> lógica de agentes (LangGraph workflows), integraciones core banking, políticas de governance específicas del banco, golden datasets para evals de dominio financiero, dashboards de negocio.</p>
+        <p><strong style="color:var(--text);font-size:12px;">Comprar / consumir como servicio:</strong> runtime LLM (Vertex AI — no construir un modelo propio), observabilidad (Dynatrace, LangSmith), gateway (Kong), CI/CD (GitHub Actions), IDP (Port.io). No construir lo que ya existe mejor que lo que nosotros haríamos.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Riesgos anticipados y mitigación</div>
+        <ul>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text);font-size:12px;">Vendor lock-in LLM:</strong> abstracción detrás de Kong — cambiar de Gemini a otro modelo es configuración, no código.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text);font-size:12px;">Adopción lenta de squads:</strong> el Golden Path debe ser irresistible — si es más fácil hacerlo solo, perdemos. Dogfood interno primero con el equipo de plataforma.</li>
+          <li><strong style="color:var(--text);font-size:12px;">Regulación cambiante:</strong> ServiceNow como sistema de record — cada decisión del agente es trazable. La auditoría es un feature, no overhead.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-teal">
+      <strong>La regulación no es un freno — es el moat.</strong> Un banco que tiene governance AI certificada puede mover más rápido que la competencia porque ya tiene la confianza del regulador. Cada restricción que cumplimos hoy es una barrera de entrada para competidores mañana.
+    </div>
+
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

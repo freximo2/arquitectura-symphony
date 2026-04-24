@@ -1,0 +1,36 @@
+# Entornos y secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs y temporales
+*.log
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# SO y editores
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+*.sublime-*
+
+# Cursor: estado local y caché del IDE (no reglas del repo)
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
+# Herramientas comunes (por si el repo crece)
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
