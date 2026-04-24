@@ -534,6 +534,20 @@ h2.sub-title {
 }
 .sub-desc { font-size: 13px; color: var(--text2); margin-bottom: 18px; line-height: 1.6; }
 
+/* ── DIAGRAMS ── */
+.diagram-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.diagram-header { padding: 18px 22px 0; }
+.diagram-title { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.diagram-sub { font-size: 11px; color: var(--text3); font-family: var(--font-mono); margin-bottom: 14px; }
+.diagram-svg { padding: 6px 18px 18px; overflow-x: auto; }
+.diagram-svg svg { display: block; max-width: 100%; height: auto; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 800px) {
   :root { --sidebar-w: 0px; }
@@ -572,6 +586,9 @@ h2.sub-title {
     </div>
     <div class="nav-item" onclick="show('vision', this)">
       <span class="nav-num">05</span> Visión 12 meses
+    </div>
+    <div class="nav-item" onclick="show('diagrama', this)">
+      <span class="nav-num">06</span> Diagrama
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -1141,6 +1158,370 @@ h2.sub-title {
 
     <div class="alert alert-teal">
       <strong>La regulación no es un freno — es el moat.</strong> Un banco que tiene governance AI certificada puede mover más rápido que la competencia porque ya tiene la confianza del regulador. Cada restricción que cumplimos hoy es una barrera de entrada para competidores mañana.
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ 06 DIAGRAMA ════════════ -->
+<div id="diagrama" class="section">
+  <div class="page-header">
+    <div class="page-tag">Arquitectura · Representación Visual</div>
+    <h1 class="page-title">Diagramas <span>del Sistema</span></h1>
+    <p class="page-desc">Tres vistas complementarias: stack de capas, flujo completo de una llamada de voz en tiempo real, y la máquina de estados del agente LangGraph.</p>
+  </div>
+  <div class="content">
+
+    <!-- ── DIAGRAM 1: ARCHITECTURE STACK ── -->
+    <div class="diagram-wrap">
+      <div class="diagram-header">
+        <div class="diagram-title">Stack de Arquitectura — 4 Capas + Externo</div>
+        <div class="diagram-sub">Vista vertical · dependencias de arriba hacia abajo · cada capa tiene un único dueño técnico</div>
+      </div>
+      <div class="diagram-svg">
+        <svg viewBox="0 0 680 490" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Canal de Voz / External -->
+          <rect x="10" y="10" width="660" height="58" rx="8" fill="rgba(245,166,35,0.07)" stroke="rgba(245,166,35,0.28)" stroke-width="1"/>
+          <rect x="10" y="10" width="3" height="58" rx="2" fill="#f5a623"/>
+          <text x="26" y="29" fill="#5a5a72" font-size="9" font-family="'Courier New',monospace" letter-spacing="1.5">EXTERNO</text>
+          <text x="26" y="50" fill="#e8e8f0" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Canal de Voz — Telephony</text>
+          <rect x="260" y="21" width="76" height="19" rx="10" fill="rgba(245,166,35,0.1)" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+          <text x="298" y="34" fill="#f5a623" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">telephony</text>
+          <rect x="346" y="21" width="72" height="19" rx="10" fill="rgba(245,166,35,0.1)" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+          <text x="382" y="34" fill="#f5a623" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">IAM/OAuth</text>
+          <rect x="428" y="21" width="80" height="19" rx="10" fill="rgba(245,166,35,0.1)" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+          <text x="468" y="34" fill="#f5a623" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">client SDKs</text>
+          <rect x="518" y="21" width="90" height="19" rx="10" fill="rgba(245,166,35,0.1)" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+          <text x="563" y="34" fill="#f5a623" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">Core Banking</text>
+
+          <!-- Arrow 1 -->
+          <line x1="340" y1="68" x2="340" y2="83" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <polygon points="335,80 340,87 345,80" fill="#5a5a72"/>
+
+          <!-- Kong AI Gateway -->
+          <rect x="10" y="87" width="660" height="74" rx="8" fill="rgba(45,212,191,0.05)" stroke="rgba(45,212,191,0.26)" stroke-width="1"/>
+          <rect x="10" y="87" width="3" height="74" rx="2" fill="#2dd4bf"/>
+          <text x="26" y="106" fill="#5a5a72" font-size="9" font-family="'Courier New',monospace" letter-spacing="1.5">CAPA 03 · GOVERNANCE &amp; CONTROL</text>
+          <text x="26" y="127" fill="#e8e8f0" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Kong AI Gateway</text>
+          <rect x="26" y="136" width="74" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="63" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">AuthN/Z</text>
+          <rect x="110" y="136" width="82" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="151" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">PII masking</text>
+          <rect x="202" y="136" width="82" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="243" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">rate limiting</text>
+          <rect x="294" y="136" width="118" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="353" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">prompt inj. detect</text>
+          <rect x="422" y="136" width="108" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="476" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">token audit log</text>
+          <rect x="540" y="136" width="100" height="18" rx="9" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+          <text x="590" y="149" fill="#2dd4bf" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP protocol</text>
+
+          <!-- Arrow 2 -->
+          <line x1="340" y1="161" x2="340" y2="176" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <polygon points="335,173 340,180 345,173" fill="#5a5a72"/>
+
+          <!-- Agent Engine -->
+          <rect x="10" y="180" width="660" height="156" rx="8" fill="rgba(74,158,255,0.04)" stroke="rgba(74,158,255,0.2)" stroke-width="1"/>
+          <rect x="10" y="180" width="3" height="156" rx="2" fill="#4a9eff"/>
+          <text x="26" y="199" fill="#5a5a72" font-size="9" font-family="'Courier New',monospace" letter-spacing="1.5">CAPA 02 · ORQUESTACIÓN DE AGENTES</text>
+
+          <!-- LangGraph -->
+          <rect x="26" y="208" width="170" height="116" rx="6" fill="rgba(74,158,255,0.07)" stroke="rgba(74,158,255,0.17)" stroke-width="1"/>
+          <text x="111" y="229" fill="#4a9eff" font-size="11" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">LangGraph</text>
+          <line x1="26" y1="236" x2="196" y2="236" stroke="rgba(74,158,255,0.1)" stroke-width="1"/>
+          <text x="111" y="254" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">state machine</text>
+          <text x="111" y="270" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">agent logic</text>
+          <text x="111" y="286" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">checkpointing</text>
+          <text x="111" y="302" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">human escalation</text>
+
+          <!-- Vertex AI -->
+          <rect x="206" y="208" width="134" height="116" rx="6" fill="rgba(108,99,255,0.07)" stroke="rgba(108,99,255,0.17)" stroke-width="1"/>
+          <text x="273" y="229" fill="#a78bfa" font-size="11" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">Vertex AI</text>
+          <line x1="206" y1="236" x2="340" y2="236" stroke="rgba(108,99,255,0.1)" stroke-width="1"/>
+          <text x="273" y="254" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">LLM runtime</text>
+          <text x="273" y="270" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">Agent Engine</text>
+          <text x="273" y="286" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">Gemini Pro</text>
+
+          <!-- Redis -->
+          <rect x="350" y="208" width="118" height="116" rx="6" fill="rgba(251,146,60,0.06)" stroke="rgba(251,146,60,0.16)" stroke-width="1"/>
+          <text x="409" y="229" fill="#fb923c" font-size="11" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">Redis</text>
+          <line x1="350" y1="236" x2="468" y2="236" stroke="rgba(251,146,60,0.1)" stroke-width="1"/>
+          <text x="409" y="254" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">session state</text>
+          <text x="409" y="270" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">&lt;1ms latency</text>
+          <text x="409" y="286" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">TTL activo</text>
+
+          <!-- LangFuse -->
+          <rect x="478" y="208" width="104" height="116" rx="6" fill="rgba(255,107,107,0.05)" stroke="rgba(255,107,107,0.14)" stroke-width="1"/>
+          <text x="530" y="229" fill="#ff6b6b" font-size="11" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">LangFuse</text>
+          <line x1="478" y1="236" x2="582" y2="236" stroke="rgba(255,107,107,0.1)" stroke-width="1"/>
+          <text x="530" y="254" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">LLM tracing</text>
+          <text x="530" y="270" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">spans/tokens</text>
+
+          <!-- Firestore -->
+          <rect x="592" y="208" width="68" height="116" rx="6" fill="rgba(74,222,128,0.06)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="626" y="229" fill="#4ade80" font-size="10" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">Firest.</text>
+          <line x1="592" y1="236" x2="660" y2="236" stroke="rgba(74,222,128,0.1)" stroke-width="1"/>
+          <text x="626" y="254" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">audit</text>
+          <text x="626" y="270" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">trail</text>
+          <text x="626" y="286" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">perm.</text>
+
+          <!-- Arrow 3 -->
+          <line x1="340" y1="336" x2="340" y2="351" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <polygon points="335,348 340,355 345,348" fill="#5a5a72"/>
+
+          <!-- MCP Servers -->
+          <rect x="10" y="355" width="660" height="68" rx="8" fill="rgba(167,139,250,0.05)" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+          <rect x="10" y="355" width="3" height="68" rx="2" fill="#a78bfa"/>
+          <text x="26" y="374" fill="#5a5a72" font-size="9" font-family="'Courier New',monospace" letter-spacing="1.5">MCP SERVERS · POR DOMINIO BIAN</text>
+          <rect x="26" y="382" width="86" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="69" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Tarjetas</text>
+          <text x="69" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Card Mgmt</text>
+          <rect x="122" y="382" width="86" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="165" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Créditos</text>
+          <text x="165" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Credit Facility</text>
+          <rect x="218" y="382" width="96" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="266" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Inversiones</text>
+          <text x="266" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Invest. Account</text>
+          <rect x="324" y="382" width="82" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="365" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Pagos</text>
+          <text x="365" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Payment Order</text>
+          <rect x="416" y="382" width="82" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="457" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Cuenta</text>
+          <text x="457" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Current Acc</text>
+          <rect x="508" y="382" width="82" height="30" rx="6" fill="rgba(167,139,250,0.09)" stroke="rgba(167,139,250,0.18)" stroke-width="1"/>
+          <text x="549" y="399" fill="#a78bfa" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">MCP Certif.</text>
+          <text x="549" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Party DataMgmt</text>
+          <rect x="600" y="382" width="62" height="30" rx="6" fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.14)" stroke-width="1"/>
+          <text x="631" y="399" fill="#5a5a72" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">+ n MCPs</text>
+          <text x="631" y="408" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">extensible</text>
+
+          <!-- Arrow 4 -->
+          <line x1="340" y1="423" x2="340" y2="437" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <polygon points="335,434 340,441 345,434" fill="#5a5a72"/>
+
+          <!-- Core Banking -->
+          <rect x="10" y="441" width="660" height="44" rx="8" fill="rgba(245,166,35,0.05)" stroke="rgba(245,166,35,0.2)" stroke-width="1"/>
+          <rect x="10" y="441" width="3" height="44" rx="2" fill="#f5a623"/>
+          <text x="26" y="459" fill="#5a5a72" font-size="9" font-family="'Courier New',monospace" letter-spacing="1.5">CORE BANKING</text>
+          <text x="26" y="477" fill="#e8e8f0" font-size="12" font-family="system-ui,sans-serif">APIs bancarias legacy · sistemas de registro · BIAN-compliant</text>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── DIAGRAM 2: VOICE CALL SEQUENCE ── -->
+    <div class="diagram-wrap">
+      <div class="diagram-header">
+        <div class="diagram-title">Flujo de Llamada de Voz — Secuencia Completa</div>
+        <div class="diagram-sub">Caso: cliente solicita bloqueo de tarjeta · latencia total ~800ms bajo SLO &lt;2.2s</div>
+      </div>
+      <div class="diagram-svg">
+        <svg viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Actor boxes -->
+          <rect x="10" y="10" width="86" height="30" rx="6" fill="rgba(245,166,35,0.1)" stroke="rgba(245,166,35,0.3)" stroke-width="1"/>
+          <text x="53" y="29" fill="#f5a623" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">Cliente</text>
+
+          <rect x="122" y="10" width="94" height="30" rx="6" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.28)" stroke-width="1"/>
+          <text x="169" y="29" fill="#2dd4bf" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">Kong GW</text>
+
+          <rect x="254" y="10" width="94" height="30" rx="6" fill="rgba(74,158,255,0.08)" stroke="rgba(74,158,255,0.25)" stroke-width="1"/>
+          <text x="301" y="29" fill="#4a9eff" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">LangGraph</text>
+
+          <rect x="378" y="10" width="94" height="30" rx="6" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+          <text x="425" y="29" fill="#a78bfa" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">Vertex AI</text>
+
+          <rect x="496" y="10" width="80" height="30" rx="6" fill="rgba(251,146,60,0.08)" stroke="rgba(251,146,60,0.22)" stroke-width="1"/>
+          <text x="536" y="29" fill="#fb923c" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">Redis</text>
+
+          <rect x="604" y="10" width="94" height="30" rx="6" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.22)" stroke-width="1"/>
+          <text x="651" y="29" fill="#a78bfa" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">MCP Server</text>
+
+          <rect x="726" y="10" width="106" height="30" rx="6" fill="rgba(245,166,35,0.06)" stroke="rgba(245,166,35,0.2)" stroke-width="1"/>
+          <text x="779" y="29" fill="#f5a623" font-size="10" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="600">Core Banking</text>
+
+          <!-- Lifelines -->
+          <line x1="53" y1="40" x2="53" y2="392" stroke="rgba(245,166,35,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="169" y1="40" x2="169" y2="392" stroke="rgba(45,212,191,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="301" y1="40" x2="301" y2="392" stroke="rgba(74,158,255,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="425" y1="40" x2="425" y2="392" stroke="rgba(167,139,250,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="536" y1="40" x2="536" y2="392" stroke="rgba(251,146,60,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="651" y1="40" x2="651" y2="392" stroke="rgba(167,139,250,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="779" y1="40" x2="779" y2="392" stroke="rgba(245,166,35,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <!-- 1. Cliente → Kong -->
+          <line x1="53" y1="68" x2="167" y2="68" stroke="rgba(245,166,35,0.55)" stroke-width="1.5"/>
+          <polygon points="163,63 169,68 163,73" fill="rgba(245,166,35,0.55)"/>
+          <text x="111" y="62" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">1. llamada + JWT token</text>
+
+          <!-- 2. Kong → LangGraph -->
+          <line x1="169" y1="96" x2="299" y2="96" stroke="rgba(45,212,191,0.55)" stroke-width="1.5"/>
+          <polygon points="295,91 301,96 295,101" fill="rgba(45,212,191,0.55)"/>
+          <text x="235" y="90" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">2. authn ok · PII masked · rate ok</text>
+
+          <!-- 3. LangGraph ↔ Redis (load state) -->
+          <line x1="301" y1="124" x2="534" y2="124" stroke="rgba(251,146,60,0.45)" stroke-width="1.5" stroke-dasharray="5,2"/>
+          <polygon points="530,119 536,124 530,129" fill="rgba(251,146,60,0.45)"/>
+          <text x="418" y="118" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">3. load_session(session_id)</text>
+          <line x1="536" y1="138" x2="303" y2="138" stroke="rgba(251,146,60,0.3)" stroke-width="1" stroke-dasharray="5,2"/>
+          <polygon points="307,133 301,138 307,143" fill="rgba(251,146,60,0.3)"/>
+          <text x="418" y="150" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">context restored (&lt;1ms)</text>
+
+          <!-- 4. LangGraph → Vertex AI -->
+          <line x1="301" y1="172" x2="423" y2="172" stroke="rgba(167,139,250,0.55)" stroke-width="1.5"/>
+          <polygon points="419,167 425,172 419,177" fill="rgba(167,139,250,0.55)"/>
+          <text x="363" y="166" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">4. prompt + tools schema</text>
+          <line x1="425" y1="188" x2="303" y2="188" stroke="rgba(167,139,250,0.35)" stroke-width="1" stroke-dasharray="5,2"/>
+          <polygon points="307,183 301,188 307,193" fill="rgba(167,139,250,0.35)"/>
+          <text x="363" y="200" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">intent: bloquear_tarjeta (conf. 0.97) + tool_call</text>
+
+          <!-- 5. LangGraph → MCP Server -->
+          <line x1="301" y1="222" x2="649" y2="222" stroke="rgba(167,139,250,0.55)" stroke-width="1.5"/>
+          <polygon points="645,217 651,222 645,227" fill="rgba(167,139,250,0.55)"/>
+          <text x="476" y="216" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">5. call_tool: block_card(card_id=****4821)</text>
+
+          <!-- 6. MCP → Core Banking -->
+          <line x1="651" y1="244" x2="777" y2="244" stroke="rgba(245,166,35,0.55)" stroke-width="1.5"/>
+          <polygon points="773,239 779,244 773,249" fill="rgba(245,166,35,0.55)"/>
+          <text x="715" y="238" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">6. POST /cards/block</text>
+          <line x1="779" y1="260" x2="653" y2="260" stroke="rgba(245,166,35,0.35)" stroke-width="1" stroke-dasharray="5,2"/>
+          <polygon points="657,255 651,260 657,265" fill="rgba(245,166,35,0.35)"/>
+          <text x="715" y="272" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">200 OK · blocked: true</text>
+
+          <!-- 7. MCP → LangGraph -->
+          <line x1="651" y1="290" x2="303" y2="290" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="5,2"/>
+          <polygon points="307,285 301,290 307,295" fill="rgba(167,139,250,0.4)"/>
+          <text x="476" y="284" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">7. tool_result: tarjeta bloqueada exitosamente</text>
+
+          <!-- 8. LangGraph → Kong → Cliente -->
+          <line x1="301" y1="316" x2="171" y2="316" stroke="rgba(74,158,255,0.55)" stroke-width="1.5"/>
+          <polygon points="175,311 169,316 175,321" fill="rgba(74,158,255,0.55)"/>
+          <text x="235" y="310" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">8. respuesta TTS generada</text>
+          <line x1="169" y1="334" x2="55" y2="334" stroke="rgba(45,212,191,0.55)" stroke-width="1.5"/>
+          <polygon points="59,329 53,334 59,339" fill="rgba(45,212,191,0.55)"/>
+          <text x="111" y="328" fill="#9090a8" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">9. "Su tarjeta fue bloqueada"</text>
+
+          <!-- 9. Async Firestore write -->
+          <line x1="301" y1="364" x2="533" y2="364" stroke="rgba(74,222,128,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+          <polygon points="529,359 535,364 529,369" fill="rgba(74,222,128,0.3)"/>
+          <text x="417" y="358" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">async → Firestore (audit trail regulatorio)</text>
+
+          <!-- Timing annotations left margin -->
+          <rect x="8" y="62" width="34" height="14" rx="3" fill="rgba(74,222,128,0.07)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="25" y="73" fill="#4ade80" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">~50ms</text>
+          <rect x="8" y="168" width="34" height="14" rx="3" fill="rgba(74,222,128,0.07)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="25" y="179" fill="#4ade80" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">~400ms</text>
+          <rect x="8" y="240" width="34" height="14" rx="3" fill="rgba(74,222,128,0.07)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="25" y="251" fill="#4ade80" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">~200ms</text>
+          <rect x="8" y="328" width="34" height="14" rx="3" fill="rgba(74,222,128,0.07)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="25" y="339" fill="#4ade80" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">~150ms</text>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── DIAGRAM 3: LANGGRAPH STATE MACHINE ── -->
+    <div class="diagram-wrap">
+      <div class="diagram-header">
+        <div class="diagram-title">Máquina de Estados LangGraph — Personal Banker</div>
+        <div class="diagram-sub">Nodos y transiciones del agente · checkpoint en Redis después de cada nodo · rollback automático ante fallo</div>
+      </div>
+      <div class="diagram-svg">
+        <svg viewBox="0 0 760 278" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- START -->
+          <circle cx="32" cy="140" r="18" fill="rgba(74,222,128,0.12)" stroke="#4ade80" stroke-width="1.5"/>
+          <text x="32" y="136" fill="#4ade80" font-size="8" text-anchor="middle" font-family="'Courier New',monospace" font-weight="600">START</text>
+          <text x="32" y="146" fill="#4ade80" font-size="10" text-anchor="middle">⬤</text>
+          <line x1="50" y1="140" x2="70" y2="140" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+          <polygon points="66,135 72,140 66,145" fill="rgba(255,255,255,0.18)"/>
+
+          <!-- detect_intent -->
+          <rect x="74" y="116" width="116" height="48" rx="8" fill="rgba(74,158,255,0.08)" stroke="rgba(74,158,255,0.3)" stroke-width="1"/>
+          <text x="132" y="135" fill="#4a9eff" font-size="10" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">detect_intent</text>
+          <text x="132" y="152" fill="#9090a8" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">Vertex AI · LLM</text>
+          <line x1="190" y1="140" x2="214" y2="140" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+          <polygon points="210,135 216,140 210,145" fill="rgba(255,255,255,0.18)"/>
+
+          <!-- route diamond -->
+          <polygon points="216,140 248,108 280,140 248,172" fill="rgba(245,166,35,0.08)" stroke="rgba(245,166,35,0.35)" stroke-width="1"/>
+          <text x="248" y="136" fill="#f5a623" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">route</text>
+          <text x="248" y="147" fill="#f5a623" font-size="9" text-anchor="middle">?</text>
+
+          <!-- Upper branch: tool_needed → call_tool -->
+          <line x1="248" y1="108" x2="248" y2="76" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <text x="262" y="96" fill="#5a5a72" font-size="8" font-family="'Courier New',monospace">tool</text>
+          <line x1="248" y1="76" x2="292" y2="76" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <polygon points="288,71 294,76 288,81" fill="rgba(255,255,255,0.15)"/>
+
+          <!-- call_tool node -->
+          <rect x="294" y="52" width="106" height="48" rx="8" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+          <text x="347" y="71" fill="#a78bfa" font-size="10" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">call_tool</text>
+          <text x="347" y="87" fill="#9090a8" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">MCP server</text>
+          <!-- call_tool exit → right → down → into generate_response -->
+          <line x1="400" y1="76" x2="432" y2="76" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="432" y1="76" x2="432" y2="140" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <polygon points="427,136 432,142 437,136" fill="rgba(255,255,255,0.15)"/>
+
+          <!-- Lower branch: direct → generate -->
+          <line x1="280" y1="140" x2="294" y2="140" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <text x="287" y="133" fill="#5a5a72" font-size="8" font-family="'Courier New',monospace" text-anchor="middle">direct</text>
+
+          <!-- generate_response node (both paths merge) -->
+          <rect x="294" y="116" width="138" height="48" rx="8" fill="rgba(74,158,255,0.08)" stroke="rgba(74,158,255,0.3)" stroke-width="1"/>
+          <text x="363" y="135" fill="#4a9eff" font-size="10" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">generate</text>
+          <text x="363" y="151" fill="#9090a8" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">_response</text>
+          <line x1="432" y1="140" x2="458" y2="140" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+          <polygon points="454,135 460,140 454,145" fill="rgba(255,255,255,0.18)"/>
+
+          <!-- escalation_check diamond -->
+          <polygon points="460,140 496,106 532,140 496,174" fill="rgba(255,107,107,0.08)" stroke="rgba(255,107,107,0.32)" stroke-width="1"/>
+          <text x="496" y="136" fill="#ff6b6b" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">escalar</text>
+          <text x="496" y="147" fill="#ff6b6b" font-size="9" text-anchor="middle">?</text>
+
+          <!-- No → END -->
+          <line x1="532" y1="140" x2="566" y2="140" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+          <text x="548" y="133" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">no</text>
+          <polygon points="562,135 568,140 562,145" fill="rgba(255,255,255,0.18)"/>
+          <!-- END double circle -->
+          <circle cx="590" cy="140" r="20" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.35)" stroke-width="1.5"/>
+          <circle cx="590" cy="140" r="13" fill="rgba(74,222,128,0.18)" stroke="rgba(74,222,128,0.55)" stroke-width="1.5"/>
+          <text x="590" y="144" fill="#4ade80" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">END</text>
+
+          <!-- Yes → escalate_human -->
+          <line x1="496" y1="174" x2="496" y2="220" stroke="rgba(255,107,107,0.45)" stroke-width="1.5"/>
+          <polygon points="491,216 496,222 501,216" fill="rgba(255,107,107,0.45)"/>
+          <text x="508" y="200" fill="#5a5a72" font-size="8" font-family="'Courier New',monospace">sí</text>
+          <!-- escalate_human node -->
+          <rect x="420" y="224" width="152" height="44" rx="8" fill="rgba(255,107,107,0.08)" stroke="rgba(255,107,107,0.32)" stroke-width="1"/>
+          <text x="496" y="243" fill="#ff6b6b" font-size="10" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">escalate_human</text>
+          <text x="496" y="258" fill="#9090a8" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">fraude · complejidad · riesgo</text>
+
+          <!-- Checkpoint annotation -->
+          <rect x="10" y="224" width="280" height="44" rx="6" fill="rgba(74,158,255,0.04)" stroke="rgba(74,158,255,0.1)" stroke-width="1"/>
+          <text x="150" y="243" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">★ checkpoint Redis después de cada nodo</text>
+          <text x="150" y="257" fill="#5a5a72" font-size="8" text-anchor="middle" font-family="'Courier New',monospace">→ recuperación automática ante fallo de pod</text>
+
+          <!-- Side annotations: Redis & Firestore -->
+          <rect x="636" y="98" width="62" height="34" rx="6" fill="rgba(251,146,60,0.07)" stroke="rgba(251,146,60,0.18)" stroke-width="1"/>
+          <text x="667" y="115" fill="#fb923c" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">Redis</text>
+          <text x="667" y="126" fill="#5a5a72" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">session</text>
+          <line x1="636" y1="115" x2="610" y2="133" stroke="rgba(251,146,60,0.2)" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <rect x="636" y="152" width="62" height="34" rx="6" fill="rgba(74,222,128,0.06)" stroke="rgba(74,222,128,0.15)" stroke-width="1"/>
+          <text x="667" y="169" fill="#4ade80" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">Firest.</text>
+          <text x="667" y="180" fill="#5a5a72" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">audit</text>
+          <line x1="636" y1="169" x2="610" y2="147" stroke="rgba(74,222,128,0.18)" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- LangSmith annotation -->
+          <rect x="636" y="52" width="62" height="34" rx="6" fill="rgba(255,107,107,0.05)" stroke="rgba(255,107,107,0.14)" stroke-width="1"/>
+          <text x="667" y="69" fill="#ff6b6b" font-size="9" text-anchor="middle" font-family="'Courier New',monospace">LangSmith</text>
+          <text x="667" y="80" fill="#5a5a72" font-size="7" text-anchor="middle" font-family="'Courier New',monospace">eval 5%</text>
+          <line x1="636" y1="69" x2="400" y2="95" stroke="rgba(255,107,107,0.15)" stroke-width="1" stroke-dasharray="3,2"/>
+
+        </svg>
+      </div>
     </div>
 
   </div>
